@@ -4,16 +4,36 @@ import './item-add-form.css';
 
 export default class ItemAddFrom extends Component {
   
-  render() {
-    const { onAddItem } = this.props;
+  state = {
+    label: ''
+  }
 
+  onLabelChange = (event)=>{
+    this.setState({
+      label: event.target.value.toUpperCase()
+    })
+  }
+
+  onSubmit = (event) => {
+    event.preventDefault();
+    this.props.onAddItem(this.state.label);
+    this.setState({label: 'XXX'});
+  }
+
+  render() {
     return(
-      <div className="item-add-form">
-        <button 
+      <form className="item-add-form"
+        onSubmit={this.onSubmit}>
+        <input type="text" 
+              className="form-control"
+              onChange={this.onLabelChange}
+              placeholder="What we need to be done"
+              value={ this.state.label }
+        />
+        <button  
           className="btn btn-outline-secondary"
-          onClick={()=> onAddItem('Add Item') }
         >Add Item</button>
-      </div>
+      </form>
     )
   }
 }
